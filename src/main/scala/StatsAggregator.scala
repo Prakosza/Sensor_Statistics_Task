@@ -5,10 +5,11 @@ case class StatsAggregator(avg: Int = -1,
                            failedCount: Int = 0) {
   def +(value: Int): StatsAggregator = {
     StatsAggregator(
-      avg = (avg * successCount + value) / (successCount + 1),
+      avg = if(avg == -1) value else (avg * successCount + value) / (successCount + 1),
       min = if (value < min) value else min,
       max = if (value > max) value else max,
-      successCount = successCount + 1
+      successCount = successCount + 1,
+      failedCount = failedCount
     )
   }
   def failed(): StatsAggregator = {

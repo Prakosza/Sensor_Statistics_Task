@@ -61,4 +61,21 @@ class CSVExtractorTest extends AnyFunSuite {
     assert(result == expected)
   }
 
+  test(
+    "processFile should handle CSV with both 0 and NaN values for same sensor correctly"
+  ) {
+    val result = CSVExtractor.processFile(
+      new File("src/test/resources/test_csvs/test4.csv"),
+      Map()
+    )
+    assert(result.nonEmpty)
+    val expected = Map(
+      "s2" -> StatsAggregator(79, 78, 80, 2, 0),
+      "s3" -> StatsAggregator(0, 0, 0, 1, 1),
+      "s1" -> StatsAggregator(98, 98, 98, 1, 0)
+    )
+
+    assert(result == expected)
+  }
+
 }
